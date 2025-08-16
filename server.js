@@ -13,6 +13,7 @@ const profilePicRouter = require('./routes/profilePicRouter')
 const productImgRouter = require('./routes/productImgRouter')
 const productRoutes = require('./routes/productRoutes')
 const cartRoutes = require('./routes/cartRoutes')
+const orderRoutes = require('./routes/orderRoutes')
 
 app.use(express.json())
 app.use(cors())
@@ -40,7 +41,9 @@ app.use('/api/profile-pic', profilePicRouter)
 app.use('/api/product-img', productImgRouter)
 
 app.use('/api/products', productRoutes)
+
 app.use('/api/cart', cartRoutes)
+app.use('/api/orders', orderRoutes)
 
 
 

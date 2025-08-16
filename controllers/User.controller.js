@@ -140,10 +140,35 @@ const login =  async(req,res)=>{
 //@route get /api/users/profile
 //@desc Get logged-in user's profile (Protect Route)
 //@access Private
-const profile =  async(req, res)=>{
-    res.json(req.user);
 
-}
+// Get user profile with orders and cart
+const profile = async (req, res) => {
+    try {
+        const user = await User.findById(req.user._id)
+            .populate('orders')
+            .populate('cart')
+            .populate('address');
+        if (!user) return res.status(404).json({ message: 'User not found' });
+        res.json(user);
+    } catch (error) {
+        res.status(500).json({ message: 'Server Error', error });
+    }
+};
+
+// Update user profile (name, mobile, address, profilePic, etc.)
+const updateProfile = async (req, res) => {
+    try {
+        const updates = req.body;
+        const user = await User.findByIdAndUpdate(req.user._id, updates, { new: true })
+            .populate('orders')
+            .populate('cart')
+            .populate('address');
+        if (!user) return res.status(404).json({ message: 'User not found' });
+        res.json(user);
+    } catch (error) {
+        res.status(500).json({ message: 'Server Error', error });
+    }
+};
 
 
 // @route POST /api/users/forgot-password
@@ -171,4 +196,4 @@ const forgotPassword = async (req, res) => {
     }
 };
 
-module.exports = {register,login,profile,forgotPassword,verifyResetCode,resetPassword}
+module.exports = {register,login,profile,forgotPassword,verifyResetCode,resetPassword,updateProfile}

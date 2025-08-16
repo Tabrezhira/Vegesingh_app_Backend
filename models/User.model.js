@@ -48,6 +48,16 @@ const userSchema = new mongoose.Schema({
     resetCodeExpiry: {
         type: Date,
         required: false
+    },
+    orders: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Order',
+        required: false
+    }],
+    cart: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Cart',
+        required: false
     }
 },{timestamps:true});
 
