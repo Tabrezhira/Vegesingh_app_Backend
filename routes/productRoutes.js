@@ -18,10 +18,13 @@ router.get('/', getProducts);
 // Get a single product by ID
 router.get('/:id', getProductById);
 
-// Update a product
-router.put('/:id', updateProduct);
 
-// Delete a product
-router.delete('/:id', deleteProduct);
+const { protect, admin } = require('../middleware/authMiddleware');
+
+// Update a product (admin only)
+router.put('/:id', protect, admin, updateProduct);
+
+// Delete a product (admin only)
+router.delete('/:id', protect, admin, deleteProduct);
 
 module.exports = router;

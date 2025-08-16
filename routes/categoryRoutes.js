@@ -20,10 +20,13 @@ router.get('/', getCategories);
 // Get a single category by ID
 router.get('/:id', getCategoryById);
 
-// Update a category
-router.put('/:id', updateCategory);
 
-// Delete a category
-router.delete('/:id', deleteCategory);
+const { protect, admin } = require('../middleware/authMiddleware');
+
+// Update a category (admin only)
+router.put('/:id', protect, admin, updateCategory);
+
+// Delete a category (admin only)
+router.delete('/:id', protect, admin, deleteCategory);
 
 module.exports = router;

@@ -24,7 +24,7 @@ const Port = process.env.PORT || 3000;
 connectDB()
 
 app.get('/', (req,res) => {
-    res.send('Welcome to Rabbit API!')
+    res.send('Welcome to Vegesingh API!')
 })
 
 // API Routes
