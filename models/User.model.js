@@ -27,7 +27,7 @@ const userSchema = new mongoose.Schema({
         default:"customer"
     },
     mobile: {
-        type: String,
+        type: Number,
         required: true,
         maxlength: 10,
         match: [/^\d{10,15}$/, 'Please enter a valid mobile number']

@@ -9,8 +9,9 @@ const {
 
 const router = express.Router();
 
-// Create a new product
-router.post('/', createProduct);
+const uploadToCloudinary = require('../middleware/uploadToCloudinary');
+// Create a new product (with optional image upload)
+router.post('/', uploadToCloudinary('img'), createProduct);
 
 // Get all products
 router.get('/', getProducts);

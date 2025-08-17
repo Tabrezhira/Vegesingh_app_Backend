@@ -10,9 +10,8 @@ const {
 const router = express.Router();
 
 // Create a new category (with image upload)
-const multer = require('multer');
-const upload = multer({ storage: multer.memoryStorage() });
-router.post('/', upload.single('image'), createCategory);
+const uploadToCloudinary = require('../middleware/uploadToCloudinary');
+router.post('/', uploadToCloudinary('image'), createCategory);
 
 // Get all categories
 router.get('/', getCategories);

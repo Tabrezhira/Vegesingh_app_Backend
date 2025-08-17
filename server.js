@@ -6,10 +6,8 @@ const {connectDB} = require('./config/db')
 const userRoutes = require('./routes/userRoutes')
 
 
-const uploadRoutes = require('./routes/uploadRouter')
 const addressRoutes = require('./routes/addressRoutes')
 const categoryRoutes = require('./routes/categoryRoutes')
-const profilePicRouter = require('./routes/profilePicRouter')
 const productImgRouter = require('./routes/productImgRouter')
 const productRoutes = require('./routes/productRoutes')
 const cartRoutes = require('./routes/cartRoutes')
@@ -30,13 +28,11 @@ app.get('/', (req,res) => {
 // API Routes
 
 app.use('/api/users', userRoutes)
-app.use('/api/upload', uploadRoutes) // upload files and img
 
 app.use('/api/address', addressRoutes)
 
 app.use('/api/categories', categoryRoutes)
 
-app.use('/api/profile-pic', profilePicRouter)
 
 app.use('/api/product-img', productImgRouter)
 
@@ -44,13 +40,6 @@ app.use('/api/products', productRoutes)
 
 app.use('/api/cart', cartRoutes)
 app.use('/api/orders', orderRoutes)
-
-
-
-
-
-
-
 
 app.listen(Port,()=>{
     console.log(`Server is running on http://localhost:${Port}`)

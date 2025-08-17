@@ -1,3 +1,6 @@
+const jwt = require('jsonwebtoken')
+const User = require('../models/User.model')
+
 // @route POST /api/users/reset-password
 // @desc Reset the user's password after code verification
 // @access Public
@@ -43,8 +46,7 @@ const verifyResetCode = async (req, res) => {
         return res.status(500).json({ message: 'Server error', error });
     }
 };
-const jwt = require('jsonwebtoken')
-const User = require('../models/User.model')
+
 
 
 
@@ -52,14 +54,15 @@ const User = require('../models/User.model')
 //@desc Register a new user
 //@access Public
 
-const register =async(req, res) => {
-    const {name, email, password} = req.body;
+const register = async(req, res) => {
+    const {name, email, password, mobile} = req.body;
     try {
         //Registration logic
         let user = await User.findOne({email})
-        if(user) return res.status(400).json({message:'User already exists'})
+        let userMobile = await User.findOne({mobile})
+        if(user || userMobile) return res.status(400).json({message:'User already exists'})
         
-        user = new User({name, email, password})
+        user = new User({name, email, password,mobile})
 
         await user.save()
 
