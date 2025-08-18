@@ -43,13 +43,16 @@ app.use('/api/orders', orderRoutes)
 // 🔑 AdminJS
 app.use(adminJs.options.rootPath, adminRouter)
 
-if (process.env.NODE_ENV === 'development') {
-  adminJs.watch()
+if (process.env.VERCEL) {
+  console.log('Running in Vercel serverless environment')
+} else {
+  if (process.env.NODE_ENV === 'development') {
+    adminJs.watch()
+  }
+  app.listen(PORT, () => {
+    console.log(`✅ Server is running on http://localhost:${PORT}`)
+    console.log(`⚡ AdminJS available at http://localhost:${PORT}${adminJs.options.rootPath}`)
+  })
 }
 
-app.listen(PORT, () => {
-  console.log(`✅ Server is running on http://localhost:${PORT}`)
-  console.log(`⚡ AdminJS available at http://localhost:${PORT}${adminJs.options.rootPath}`)
-})
-
-// export default app // (for Vercel/Serverless)
+export default app
