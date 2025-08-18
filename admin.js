@@ -1,7 +1,7 @@
 import AdminJS from 'adminjs'
 import AdminJSExpress from '@adminjs/express'
 import * as AdminJSMongoose from '@adminjs/mongoose'
-import bcrypt from 'bcrypt'
+
 
 // Models
 import User from './models/User.model.js'
