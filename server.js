@@ -45,18 +45,31 @@ app.use(adminJs.options.rootPath, adminRouter)
 
 // ✅ Only run app.listen() in local dev, not in Vercel
 // Only start the server if not running in Vercel dev/serverless
-if (process.env.NODE_ENV !== 'production' && !process.env.VERCEL_ENV) {
+// if (process.env.NODE_ENV !== 'production' && !process.env.VERCEL_ENV) {
+//   if (process.env.NODE_ENV === 'development') {
+//     adminJs.watch() 
+//     console.log("hello")
+//   }
+//   app.listen(PORT, () => {
+//     console.log("hi")
+//     console.log(`✅ Server is running on http://localhost:${PORT}`)
+//     console.log(`⚡ AdminJS available at http://localhost:${PORT}${adminJs.options.rootPath}`)
+//   })
+// }
+
+// Only start local server if running outside Vercel
+if (!process.env.VERCEL) {
   if (process.env.NODE_ENV === 'development') {
-    adminJs.watch() 
+    adminJs.watch()
     console.log("hello")
   }
+
   app.listen(PORT, () => {
     console.log("hi")
     console.log(`✅ Server is running on http://localhost:${PORT}`)
-    console.log(`⚡ AdminJS available at http://localhost:${PORT}${adminJs.options.rootPath}`)
+    console.log(`⚡ AdminJS available at http://localhost:${adminJs.options.rootPath}`)
   })
 }
-
 
 
 
