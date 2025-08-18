@@ -15,7 +15,7 @@
   "description": "",
   "dependencies": {
     "@adminjs/express": "^6.1.1",
-    "@adminjs/mongoose": "^4.1.0",
+    "@adminjs/mongoose": "^4.1.0", 
     "bcryptjs": "^3.0.2",
     "cloudinary": "^2.7.0",
     "cors": "^2.8.5",
@@ -27,11 +27,6 @@
     "nodemon": "^3.1.10",
     "serverless-http": "^3.2.0",
     "streamifier": "^0.1.1"
-  },
-  "overrides": {
-    "@adminjs/themes": {
-      "rollup": "npm:@rollup/wasm-node@^4.46.3"
-    }
   },
   "engines": {
     "node": ">=20.x"
