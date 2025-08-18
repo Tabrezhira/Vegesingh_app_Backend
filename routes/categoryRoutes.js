@@ -1,4 +1,5 @@
 const express = require('express');
+const { protect, admin } = require('../middleware/authMiddleware');
 const {
   createCategory,
   getCategories,
@@ -20,10 +21,10 @@ router.get('/', getCategories);
 router.get('/:id', getCategoryById);
 
 
-const { protect, admin } = require('../middleware/authMiddleware');
+
 
 // Update a category (admin only)
-router.put('/:id', protect, admin, updateCategory);
+router.put('/:id', protect, admin, uploadToCloudinary('image'),updateCategory);
 
 // Delete a category (admin only)
 router.delete('/:id', protect, admin, deleteCategory);

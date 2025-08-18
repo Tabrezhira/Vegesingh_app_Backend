@@ -19,6 +19,13 @@ exports.addToCart = async (req, res) => {
     let cart = await Cart.findOne({ user: req.params.userId });
     if (!cart) {
       cart = new Cart({ user: req.params.userId, items: [] });
+      // Set cart ref in user
+      const User = require('../models/User.model');
+      await User.findByIdAndUpdate(
+        req.params.userId,
+        { cart: cart._id },
+        { new: true }
+      );
     }
     const product = await Product.findById(productId);
     if (!product) return res.status(404).json({ message: 'Product not found' });

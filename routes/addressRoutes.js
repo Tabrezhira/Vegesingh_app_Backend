@@ -8,6 +8,7 @@ const { protect } = require('../middleware/authMiddleware');
 // @route GET /api/address/user/:userId
 // @desc Get address by user ID
 router.get('/user/:userId', require('../controllers/Address.controller').getAddressByUserId);
+
 // @route DELETE /api/address/:id
 // @desc Delete an address (protected)
 router.delete('/:id', protect, require('../controllers/Address.controller').deleteAddress);

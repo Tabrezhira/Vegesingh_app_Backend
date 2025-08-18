@@ -34,7 +34,7 @@ app.use('/api/address', addressRoutes)
 app.use('/api/categories', categoryRoutes)
 
 
-app.use('/api/product-img', productImgRouter)
+// app.use('/api/product-img', productImgRouter)
 
 app.use('/api/products', productRoutes)
 

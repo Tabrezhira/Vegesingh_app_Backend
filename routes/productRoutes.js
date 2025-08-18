@@ -23,7 +23,7 @@ router.get('/:id', getProductById);
 const { protect, admin } = require('../middleware/authMiddleware');
 
 // Update a product (admin only)
-router.put('/:id', protect, admin, updateProduct);
+router.put('/:id', protect, admin,uploadToCloudinary('img'), updateProduct);
 
 // Delete a product (admin only)
 router.delete('/:id', protect, admin, deleteProduct);

@@ -1,4 +1,7 @@
 const express = require('express');
+const {protect, admin} = require('../middleware/authMiddleware')
+
+const router = express.Router();
 const {
   createOrder,
   getOrders,
@@ -8,24 +11,31 @@ const {
   deleteOrder
 } = require('../controllers/Order.controller');
 
-const router = express.Router();
 
-// Create a new order
-router.post('/', createOrder);
 
-// Get all orders (admin)
-router.get('/', getOrders);
 
-// Get a single order by ID
-router.get('/:id', getOrderById);
 
-// Get all orders for a user
-router.get('/user/:userId', getOrdersByUser);
+// Create a new order (user must be authenticated)
+router.post('/', protect, createOrder);
 
-// Update order status
-router.put('/:id', updateOrderStatus);
 
-// Delete an order
-router.delete('/:id', deleteOrder);
+// Get all orders (admin only)
+router.get('/', protect, admin, getOrders);
+
+
+// Get a single order by ID (user must be authenticated)
+router.get('/:id', protect, getOrderById);
+
+
+// Get all orders for a user (user must be authenticated)
+router.get('/user/:userId', protect, getOrdersByUser);
+
+
+// Update order status (admin only)
+router.put('/:id', protect, admin, updateOrderStatus);
+
+
+// Delete an order (admin only)
+router.delete('/:id', protect, admin, deleteOrder);
 
 module.exports = router;

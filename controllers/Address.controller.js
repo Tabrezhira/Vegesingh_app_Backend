@@ -1,3 +1,9 @@
+const Address = require('../models/Address.model');
+
+// Create a new address
+const User = require('../models/User.model');
+
+
 // Get address by user ID
 exports.getAddressByUserId = async (req, res) => {
   try {
@@ -36,14 +42,15 @@ exports.updateAddress = async (req, res) => {
     res.status(500).json({ message: 'Server Error', error });
   }
 };
-const Address = require('../models/Address.model');
 
-// Create a new address
-const User = require('../models/User.model');
 exports.createAddress = async (req, res) => {
   try {
     const { address, street, city, pincode } = req.body;
     const userId = req.user._id;
+    const user = await User.findById(userId);
+    if (user.address) {
+      return res.status(400).json({ message: 'User already has an address' });
+    }
     const newAddress = new Address({ address, street, city, pincode });
     await newAddress.save();
     // Add address ref to user

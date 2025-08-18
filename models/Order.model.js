@@ -2,9 +2,9 @@ const mongoose = require('mongoose');
 
 const orderItemSchema = new mongoose.Schema({
   product: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Product',
-    required: true
+    _id: { type: mongoose.Schema.Types.ObjectId, required: true },
+    name: { type: String, required: true },
+    img: { type: String },
   },
   quantity: {
     type: Number,
@@ -19,6 +19,11 @@ const orderItemSchema = new mongoose.Schema({
 });
 
 const orderSchema = new mongoose.Schema({
+  orderId: {
+    type: String,
+    unique: true,
+    required: true
+  },
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
@@ -30,9 +35,11 @@ const orderSchema = new mongoose.Schema({
     required: true
   },
   address: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Address',
-    required: true
+    name: { type: String, required: true },
+    mobile: { type: String, required: true },
+    street: { type: String, required: true },
+    city: { type: String, required: true },
+    pincode: { type: String, required: true },
   },
   status: {
     type: String,

@@ -3,10 +3,12 @@ const Product = require('../models/Product.model');
 // Create a new product
 exports.createProduct = async (req, res) => {
   try {
-    const { name, price, qty, reviews, star, detail, popular, category, img } = req.body;
+    const { name, price, qty, reviews, star, detail, popular, category } = req.body;
     // Generate random reviews and star if not provided
     const randomReviews = reviews !== undefined ? reviews : Math.floor(Math.random() * 1000);
     const randomStar = star !== undefined ? star : (Math.random() * 5).toFixed(1);
+  // img comes from Cloudinary middleware
+  const img = req.imageUrl;
     const product = new Product({
       name,
       price,
@@ -49,7 +51,10 @@ exports.getProductById = async (req, res) => {
 // Update a product
 exports.updateProduct = async (req, res) => {
   try {
-    const { name, price, qty, reviews, star, detail, popular, category, img } = req.body;
+    const { name, price, qty, reviews, star, detail, popular, category } = req.body;
+    console.log(req.body)
+    // Use Cloudinary middleware image if present, else fallback to body
+    const img = req.imageUrl || req.body.img;
     const product = await Product.findByIdAndUpdate(
       req.params.id,
       { name, price, qty, reviews, star, detail, popular, category, img },
