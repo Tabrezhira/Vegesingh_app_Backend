@@ -1,6 +1,4 @@
-import AdminJS, { ComponentLoader } from 'adminjs'
-import path from 'path'
-import { fileURLToPath } from 'url'
+import AdminJS from 'adminjs'
 import AdminJSExpress from '@adminjs/express'
 import * as AdminJSMongoose from '@adminjs/mongoose'
 import bcrypt from 'bcrypt'
@@ -20,18 +18,10 @@ AdminJS.registerAdapter({
 })
 
 // Custom component loader for dashboard (AdminJS v7 compatible)
-const componentLoader = new ComponentLoader()
-// IMPORTANT: Use a relative path for AdminJS bundler (absolute windows paths can break)
-let DashboardComponent = null
-try {
-  DashboardComponent = componentLoader.add('Dashboard', './admin-components/Dashboard.jsx')
-  console.log('[AdminJS] Custom dashboard component registered.')
-} catch (e) {
-  console.warn('[AdminJS] Dashboard component load failed, using fallback:', e.message)
-}
+// Removed custom ComponentLoader to avoid Rollup native optional dependency issues on Vercel.
+// If you want to restore the rich dashboard locally, reintroduce ComponentLoader and add rollup as a prod dependency.
 
 const adminJs = new AdminJS({
-  componentLoader,
   resources: [
     {
       resource: User,
@@ -124,90 +114,33 @@ const adminJs = new AdminJS({
   },
   dashboard: {
     handler: async () => {
-      try {
-        const startOfDay = new Date();
-        startOfDay.setHours(0,0,0,0);
-        const sevenDaysAgo = new Date(Date.now() - 6 * 24 * 60 * 60 * 1000);
-
-        const [
-          userCount,
-          productCount,
-          orderCount,
-          popularProducts,
-            recentOrders,
-          revenueAgg,
-          usersToday,
-          ordersToday,
-          revenueTodayAgg,
-          statusAgg,
-          ordersLast7Agg,
-        ] = await Promise.all([
-          User.countDocuments(),
-          Product.countDocuments(),
-          Order.countDocuments(),
-          Product.find({ popular: true }).select('name price').limit(5).lean(),
-          Order.find().sort({ createdAt: -1 }).limit(5).select('orderId total status createdAt').lean(),
-          Order.aggregate([
-            { $match: { status: 'delivered' } },
-            { $group: { _id: null, total: { $sum: '$total' } } },
-          ]),
-          User.countDocuments({ createdAt: { $gte: startOfDay } }),
-          Order.countDocuments({ createdAt: { $gte: startOfDay } }),
-          Order.aggregate([
-            { $match: { status: 'delivered', createdAt: { $gte: startOfDay } } },
-            { $group: { _id: null, total: { $sum: '$total' } } },
-          ]),
-          Order.aggregate([
-            { $group: { _id: '$status', count: { $sum: 1 } } },
-          ]),
-          Order.aggregate([
-            { $match: { createdAt: { $gte: sevenDaysAgo } } },
-            { $group: { _id: { $dateToString: { format: '%Y-%m-%d', date: '$createdAt' } }, orders: { $sum: 1 }, revenue: { $sum: '$total' } } },
-            { $sort: { _id: 1 } },
-          ]),
-        ])
-
-        const revenue = revenueAgg?.[0]?.total || 0;
-        const revenueToday = revenueTodayAgg?.[0]?.total || 0;
-        const statusCounts = statusAgg.reduce((acc, cur) => { acc[cur._id] = cur.count; return acc; }, {});
-        const ordersLast7 = ordersLast7Agg.map(d => ({ date: d._id, orders: d.orders, revenue: d.revenue }));
-
-        return {
-          stats: { userCount, productCount, orderCount, revenue },
-          today: { usersToday, ordersToday, revenueToday },
-          statusCounts,
-          ordersLast7,
-          popularProducts,
-          recentOrders,
-          generatedAt: new Date().toISOString(),
-          fallback: false,
-          version: 'dash:v2',
-        }
-      } catch (e) {
-        return { text: 'Vegesingh Admin Dashboard (fallback)', error: e.message, fallback: true }
+      const [userCount, productCount, orderCount] = await Promise.all([
+        User.countDocuments(),
+        Product.countDocuments(),
+        Order.countDocuments(),
+      ])
+      return {
+        text: `Vegesingh Admin Dashboard\nUsers: ${userCount} | Products: ${productCount} | Orders: ${orderCount}`,
       }
     },
-    component: DashboardComponent || false,
+    component: false,
   },
 })
 
-const DEFAULT_ADMIN = {
-  email: 'admin@vegesingh.com',
-  password: 'admin123',
-};
- 
+const DEFAULT_ADMIN = { email: 'admin@vegesingh.com', password: 'admin123' }
+
 const adminRouter = AdminJSExpress.buildAuthenticatedRouter(
   adminJs,
   {
     authenticate: async (email, password) => {
       if (email === DEFAULT_ADMIN.email && password === DEFAULT_ADMIN.password) {
-        return { email: DEFAULT_ADMIN.email };
+        return { email: DEFAULT_ADMIN.email }
       }
-      return null;
+      return null
     },
     cookieName: 'adminjs',
     cookiePassword: 'supersecret',
   }
-);
+)
 
 export { adminJs, adminRouter }
