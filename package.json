@@ -28,12 +28,11 @@
     "nodemon": "^3.1.10",
     "rollup": "^4.46.3",
     "serverless-http": "^3.2.0",
-    "streamifier": "^0.1.1"
-  },
-  "optionalDependencies": {
+    "streamifier": "^0.1.1",
     "@rollup/rollup-linux-x64-gnu": "^4.46.3"
   },
-   "engines": {
+  "optionalDependencies": {},
+  "engines": {
     "node": ">=20.x"
   }
 }
