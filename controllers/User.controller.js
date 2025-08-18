@@ -1,5 +1,5 @@
-const jwt = require('jsonwebtoken')
-const User = require('../models/User.model')
+import jwt from 'jsonwebtoken';
+import User from '../models/User.model.js';
 
 // @route POST /api/users/reset-password
 // @desc Reset the user's password after code verification
@@ -201,4 +201,12 @@ const forgotPassword = async (req, res) => {
     }
 };
 
-module.exports = {register,login,profile,forgotPassword,verifyResetCode,resetPassword,updateProfile}
+export {
+    register,
+    login,
+    profile,
+    forgotPassword,
+    verifyResetCode,
+    resetPassword,
+    updateProfile
+};

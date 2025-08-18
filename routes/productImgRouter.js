@@ -1,9 +1,13 @@
-const express = require('express');
-const multer = require('multer');
-const cloudinary = require('cloudinary').v2;
-const streamifier = require('streamifier');
-const Product = require('../models/Product.model');
-require('dotenv').config();
+
+import express from 'express';
+import multer from 'multer';
+import cloudinaryModule from 'cloudinary';
+import streamifier from 'streamifier';
+import Product from '../models/Product.model.js';
+import dotenv from 'dotenv';
+dotenv.config();
+
+const cloudinary = cloudinaryModule.v2;
 
 const router = express.Router();
 
@@ -45,4 +49,4 @@ router.post('/:productId', upload.single('img'), async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;

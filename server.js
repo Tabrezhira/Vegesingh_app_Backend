@@ -1,17 +1,17 @@
-const express = require('express');
-const cors = require('cors')
-const dotenv = require('dotenv')
-const app = express()
-const {connectDB} = require('./config/db')
-const userRoutes = require('./routes/userRoutes')
 
+import express from 'express';
+import cors from 'cors';
+import dotenv from 'dotenv';
+import { connectDB } from './config/db.js';
+import userRoutes from './routes/userRoutes.js';
+import addressRoutes from './routes/addressRoutes.js';
+import categoryRoutes from './routes/categoryRoutes.js';
+// import productImgRouter from './routes/productImgRouter.js';
+import productRoutes from './routes/productRoutes.js';
+import cartRoutes from './routes/cartRoutes.js';
+import orderRoutes from './routes/orderRoutes.js';
 
-const addressRoutes = require('./routes/addressRoutes')
-const categoryRoutes = require('./routes/categoryRoutes')
-const productImgRouter = require('./routes/productImgRouter')
-const productRoutes = require('./routes/productRoutes')
-const cartRoutes = require('./routes/cartRoutes')
-const orderRoutes = require('./routes/orderRoutes')
+const app = express();
 
 app.use(express.json())
 app.use(cors())

@@ -1,31 +1,28 @@
-const express = require('express');
-const { createAddress, getAddresses } = require('../controllers/Address.controller');
+import express from 'express';
+import { protect } from '../middleware/authMiddleware.js';
+import {
+  createAddress,
+  getAddresses,
+  getAddressByUserId,
+  updateAddress,
+  deleteAddress
+} from '../controllers/Address.controller.js';
+
 const router = express.Router();
 
-const { protect } = require('../middleware/authMiddleware');
-
-
-// @route GET /api/address/user/:userId
-// @desc Get address by user ID
-router.get('/user/:userId', require('../controllers/Address.controller').getAddressByUserId);
-
-// @route DELETE /api/address/:id
-// @desc Delete an address (protected)
-router.delete('/:id', protect, require('../controllers/Address.controller').deleteAddress);
-
-
-
-// @route POST /api/address
-// @desc Create a new address (protected)
+// Create a new address
 router.post('/', protect, createAddress);
 
+// Get all addresses
+router.get('/', protect, getAddresses);
 
-// @route PUT /api/address/:id
-// @desc Update an address (protected)
-router.put('/:id', protect, require('../controllers/Address.controller').updateAddress);
+// Get a single address by ID
+router.get('/:id', protect, getAddressByUserId);
 
-// @route GET /api/address
-// @desc Get all addresses
-router.get('/', getAddresses);
+// Update an address
+router.put('/:id', protect, updateAddress);
 
-module.exports = router;
+// Delete an address
+router.delete('/:id', protect, deleteAddress);
+
+export default router;

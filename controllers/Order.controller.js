@@ -1,9 +1,9 @@
-const Order = require('../models/Order.model');
-const User = require('../models/User.model');
-const Cart = require('../models/Cart.model');
+import Order from '../models/Order.model.js';
+import User from '../models/User.model.js';
+import Cart from '../models/Cart.model.js';
 
 // Create a new order
-exports.createOrder = async (req, res) => {
+export const createOrder = async (req, res) => {
   try {
     // user from auth middleware (req.user)
     const userId = req.user._id;
@@ -87,7 +87,7 @@ exports.createOrder = async (req, res) => {
 };
 
 // Get all orders (admin)
-exports.getOrders = async (req, res) => {
+export const getOrders = async (req, res) => {
   try {
   const orders = await Order.find().populate('user');
     res.status(200).json(orders);
@@ -97,7 +97,7 @@ exports.getOrders = async (req, res) => {
 };
 
 // Get a single order by ID
-exports.getOrderById = async (req, res) => {
+export const getOrderById = async (req, res) => {
   try {
   const order = await Order.findById(req.params.id).populate('user');
     if (!order) return res.status(404).json({ message: 'Order not found' });
@@ -108,7 +108,7 @@ exports.getOrderById = async (req, res) => {
 };
 
 // Get all orders for a user
-exports.getOrdersByUser = async (req, res) => {
+export const getOrdersByUser = async (req, res) => {
   try {
   const orders = await Order.find({ user: req.params.userId });
     res.status(200).json(orders);
@@ -118,7 +118,7 @@ exports.getOrdersByUser = async (req, res) => {
 };
 
 // Update order status
-exports.updateOrderStatus = async (req, res) => {
+export const updateOrderStatus = async (req, res) => {
   try {
     const { status, paymentStatus } = req.body;
     const order = await Order.findByIdAndUpdate(
@@ -134,7 +134,7 @@ exports.updateOrderStatus = async (req, res) => {
 };
 
 // Delete an order
-exports.deleteOrder = async (req, res) => {
+export const deleteOrder = async (req, res) => {
   try {
     const order = await Order.findByIdAndDelete(req.params.id);
     if (!order) return res.status(404).json({ message: 'Order not found' });

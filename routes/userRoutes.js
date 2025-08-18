@@ -1,12 +1,12 @@
-const express = require('express')
-const router = express.Router()
+import express from 'express';
+import { protect } from '../middleware/authMiddleware.js';
+import { register, login, updateProfile, profile, forgotPassword, resetPassword, verifyResetCode } from '../controllers/User.controller.js';
+import uploadToCloudinary from '../middleware/uploadToCloudinary.js';
+import User from '../models/User.model.js';
+import dotenv from 'dotenv';
+dotenv.config();
 
-const {protect} = require('../middleware/authMiddleware')
-const { register, login,updateProfile, profile, forgotPassword,resetPassword, verifyResetCode } = require('../controllers/User.controller')
-const uploadToCloudinary = require('../middleware/uploadToCloudinary');
-const User = require('../models/User.model');
-
-require('dotenv').config();
+const router = express.Router();
 
 
 //@route POST /api/users/register
@@ -89,8 +89,4 @@ router.post('/:userId', uploadToCloudinary('profilePic'), async (req, res) => {
   }
 });
 
-module.exports = router;
-
-
-
-module.exports = router
+export default router;

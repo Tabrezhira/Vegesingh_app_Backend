@@ -1,7 +1,11 @@
-const multer = require('multer');
-const cloudinary = require('cloudinary').v2;
-const streamifier = require('streamifier');
-require('dotenv').config();
+
+import multer from 'multer';
+import cloudinaryModule from 'cloudinary';
+import streamifier from 'streamifier';
+import dotenv from 'dotenv';
+dotenv.config();
+
+const cloudinary = cloudinaryModule.v2;
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_Name,
@@ -38,4 +42,4 @@ const uploadToCloudinary = (fieldName = 'image') => [
   }
 ];
 
-module.exports = uploadToCloudinary;
+export default uploadToCloudinary;

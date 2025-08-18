@@ -1,8 +1,8 @@
-const Cart = require('../models/Cart.model');
-const Product = require('../models/Product.model');
+import Cart from '../models/Cart.model.js';
+import Product from '../models/Product.model.js';
 
 // Get user's cart
-exports.getCart = async (req, res) => {
+export const getCart = async (req, res) => {
   try {
     const cart = await Cart.findOne({ user: req.params.userId }).populate('items.product');
     if (!cart) return res.status(404).json({ message: 'Cart not found' });
@@ -13,7 +13,7 @@ exports.getCart = async (req, res) => {
 };
 
 // Add or update item in cart
-exports.addToCart = async (req, res) => {
+export const addToCart = async (req, res) => {
   try {
     const { productId, quantity } = req.body;
     let cart = await Cart.findOne({ user: req.params.userId });
@@ -49,7 +49,7 @@ exports.addToCart = async (req, res) => {
 };
 
 // Remove item from cart
-exports.removeFromCart = async (req, res) => {
+export const removeFromCart = async (req, res) => {
   try {
     const { productId } = req.body;
     const cart = await Cart.findOne({ user: req.params.userId });
@@ -69,7 +69,7 @@ exports.removeFromCart = async (req, res) => {
 };
 
 // Clear cart
-exports.clearCart = async (req, res) => {
+export const clearCart = async (req, res) => {
   try {
     const cart = await Cart.findOne({ user: req.params.userId });
     if (!cart) return res.status(404).json({ message: 'Cart not found' });

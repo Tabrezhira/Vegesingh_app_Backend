@@ -1,7 +1,6 @@
-
-const Category = require('../models/Category.model');
-const cloudinary = require('cloudinary').v2;
-const streamifier = require('streamifier');
+import Category from '../models/Category.model.js';
+import cloudinary from 'cloudinary';
+import streamifier from 'streamifier';
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_Name,
@@ -10,7 +9,7 @@ cloudinary.config({
 });
 
 // Create a new category
-exports.createCategory = async (req, res) => {
+export const createCategory = async (req, res) => {
   try {
     const { name, description } = req.body;
     let imageUrl = '';
@@ -42,7 +41,7 @@ exports.createCategory = async (req, res) => {
 };
 
 // Get all categories
-exports.getCategories = async (req, res) => {
+export const getCategories = async (req, res) => {
   try {
     const categories = await Category.find();
     res.status(200).json(categories);
@@ -52,7 +51,7 @@ exports.getCategories = async (req, res) => {
 };
 
 // Get a single category by ID
-exports.getCategoryById = async (req, res) => {
+export const getCategoryById = async (req, res) => {
   try {
     const category = await Category.findById(req.params.id);
     if (!category) return res.status(404).json({ message: 'Category not found' });
@@ -63,7 +62,7 @@ exports.getCategoryById = async (req, res) => {
 };
 
 // Update a category
-exports.updateCategory = async (req, res) => {
+export const updateCategory = async (req, res) => {
   try {
     const { name, description, image } = req.body;
     const category = await Category.findByIdAndUpdate(
@@ -79,7 +78,7 @@ exports.updateCategory = async (req, res) => {
 };
 
 // Delete a category
-exports.deleteCategory = async (req, res) => {
+export const deleteCategory = async (req, res) => {
   try {
     const category = await Category.findByIdAndDelete(req.params.id);
     if (!category) return res.status(404).json({ message: 'Category not found' });

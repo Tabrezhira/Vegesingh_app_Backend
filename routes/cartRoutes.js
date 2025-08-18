@@ -1,10 +1,10 @@
-const express = require('express');
-const {
+import express from 'express';
+import {
   getCart,
   addToCart,
   removeFromCart,
   clearCart
-} = require('../controllers/Cart.controller');
+} from '../controllers/Cart.controller.js';
 
 const router = express.Router();
 
@@ -20,4 +20,4 @@ router.delete('/:userId', removeFromCart);
 // Clear cart
 router.delete('/:userId/clear', clearCart);
 
-module.exports = router;
+export default router;

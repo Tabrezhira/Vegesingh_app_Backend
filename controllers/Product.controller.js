@@ -1,7 +1,7 @@
-const Product = require('../models/Product.model');
+import Product from '../models/Product.model.js';
 
 // Create a new product
-exports.createProduct = async (req, res) => {
+export const createProduct = async (req, res) => {
   try {
     const { name, price, qty, reviews, star, detail, popular, category } = req.body;
     // Generate random reviews and star if not provided
@@ -28,7 +28,7 @@ exports.createProduct = async (req, res) => {
 };
 
 // Get all products
-exports.getProducts = async (req, res) => {
+export const getProducts = async (req, res) => {
   try {
     const products = await Product.find().populate('category');
     res.status(200).json(products);
@@ -38,7 +38,7 @@ exports.getProducts = async (req, res) => {
 };
 
 // Get a single product by ID
-exports.getProductById = async (req, res) => {
+export const getProductById = async (req, res) => {
   try {
     const product = await Product.findById(req.params.id).populate('category');
     if (!product) return res.status(404).json({ message: 'Product not found' });
@@ -49,7 +49,7 @@ exports.getProductById = async (req, res) => {
 };
 
 // Update a product
-exports.updateProduct = async (req, res) => {
+export const updateProduct = async (req, res) => {
   try {
     const { name, price, qty, reviews, star, detail, popular, category } = req.body;
     console.log(req.body)
@@ -68,7 +68,7 @@ exports.updateProduct = async (req, res) => {
 };
 
 // Delete a product
-exports.deleteProduct = async (req, res) => {
+export const deleteProduct = async (req, res) => {
   try {
     const product = await Product.findByIdAndDelete(req.params.id);
     if (!product) return res.status(404).json({ message: 'Product not found' });
