@@ -4,10 +4,10 @@
   "main": "server.js",
   "type": "module",
   "scripts": {
-    "start": "node server.js",               
-    "dev": "nodemon server.js",           
-    "vercel": "vercel dev",                 
-    "seed": "node seeder.js"              
+    "start": "node server.js",
+    "dev": "nodemon server.js",
+    "vercel": "vercel dev",
+    "seed": "node seeder.js"
   },
   "keywords": [],
   "author": "",
