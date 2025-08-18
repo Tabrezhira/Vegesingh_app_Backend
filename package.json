@@ -30,10 +30,10 @@
     "serverless-http": "^3.2.0",
     "streamifier": "^0.1.1"
   },
- "engines": {
-    "node": ">=20.x"
-  },
-  "devDependencies": {
+  "optionalDependencies": {
     "@rollup/rollup-linux-x64-gnu": "^4.46.3"
+  },
+   "engines": {
+    "node": ">=20.x"
   }
 }
