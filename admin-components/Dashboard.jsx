@@ -1,4 +1,4 @@
-import React from 'react'
+
 import { Box, H2, Text, Table, TableRow, TableCell, Badge, ValueBlock, Label } from '@adminjs/design-system'
 
 const StatCard = ({ label, value, accent }) => (
