@@ -31,8 +31,5 @@
   "devDependencies": {
     "nodemon": "^3.1.10",
     "rollup": "^4.46.3"
-  },
-  "engines": {
-    "node": "20.x"
   }
 }
