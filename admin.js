@@ -140,6 +140,9 @@ const adminRouter = AdminJSExpress.buildAuthenticatedRouter(
     },
     cookieName: 'adminjs',
     cookiePassword: 'supersecret',
+    // Add express-session options to fix deprecation warnings
+    resave: false,
+    saveUninitialized: false,
   }
 )
 
