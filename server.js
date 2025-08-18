@@ -13,7 +13,7 @@ import cartRoutes from './routes/cartRoutes.js'
 import orderRoutes from './routes/orderRoutes.js'
 
 // AdminJS
-// import { adminJs, adminRouter } from './admin.js'
+import { adminJs, adminRouter } from './admin.js'
 
 dotenv.config()
 
@@ -41,20 +41,20 @@ app.use('/api/cart', cartRoutes)
 app.use('/api/orders', orderRoutes)
 
 // 🔑 AdminJS
-// app.use(adminJs.options.rootPath, adminRouter)
+app.use(adminJs.options.rootPath, adminRouter)
 
 
 
 // Only start local server if running outside Vercel
 if (!process.env.VERCEL) {
   if (process.env.NODE_ENV === 'development') {
-    // adminJs.watch()
+    adminJs.watch()
     console.log("hello")
   }
 
   app.listen(PORT, () => {
     console.log(`✅ Server is running on http://localhost:${PORT}`)
-    // console.log(`⚡ AdminJS available at http://localhost:${PORT}${adminJs.options.rootPath}`)
+    console.log(`⚡ AdminJS available at http://localhost:${PORT}${adminJs.options.rootPath}`)
   })
 }
 
