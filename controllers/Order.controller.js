@@ -1,6 +1,7 @@
 import Order from '../models/Order.model.js';
 import User from '../models/User.model.js';
 import Cart from '../models/Cart.model.js';
+import Address from '../models/Address.model.js';
 
 // Create a new order
 export const createOrder = async (req, res) => {
@@ -15,9 +16,8 @@ export const createOrder = async (req, res) => {
     if (!userDoc || !userDoc.address) {
       return res.status(400).json({ message: 'User has no address on file' });
     }
-    // Fetch the full address object
-    const Address = require('../models/Address.model');
-    const addressObj = await Address.findById(userDoc.address);
+  // Fetch the full address object
+  const addressObj = await Address.findById(userDoc.address);
     if (!addressObj) {
       return res.status(400).json({ message: 'Address not found' });
     }

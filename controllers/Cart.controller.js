@@ -1,5 +1,6 @@
 import Cart from '../models/Cart.model.js';
 import Product from '../models/Product.model.js';
+import User from '../models/User.model.js';
 
 // Get user's cart
 export const getCart = async (req, res) => {
@@ -20,7 +21,6 @@ export const addToCart = async (req, res) => {
     if (!cart) {
       cart = new Cart({ user: req.params.userId, items: [] });
       // Set cart ref in user
-      const User = require('../models/User.model');
       await User.findByIdAndUpdate(
         req.params.userId,
         { cart: cart._id },

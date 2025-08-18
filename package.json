@@ -2,6 +2,7 @@
   "name": "backend",
   "version": "1.0.0",
   "main": "server.js",
+  "type": "module",
   "scripts": {
     "start": "node server.js",
     "dev": "nodemon server.js",
@@ -12,8 +13,14 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@adminjs/express": "^6.1.1",
+    "@adminjs/mongoose": "^4.1.0",
+    "@adminjs/themes": "^1.0.1",
+    "add": "^2.0.6",
+    "bcrypt": "^6.0.0",
     "bcryptjs": "^3.0.2",
     "cloudinary": "^2.7.0",
+    "connect-pg-simple": "^10.0.0",
     "cors": "^2.8.5",
     "dotenv": "^16.6.1",
     "express": "^4.21.2",
@@ -24,6 +31,5 @@
   },
   "devDependencies": {
     "nodemon": "^3.1.10"
-  },
-  "type": "module"
+  }
 }

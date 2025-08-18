@@ -1,48 +1,55 @@
+import express from 'express'
+import cors from 'cors'
+import dotenv from 'dotenv'
 
-import express from 'express';
-import cors from 'cors';
-import dotenv from 'dotenv';
-import { connectDB } from './config/db.js';
-import userRoutes from './routes/userRoutes.js';
-import addressRoutes from './routes/addressRoutes.js';
-import categoryRoutes from './routes/categoryRoutes.js';
-// import productImgRouter from './routes/productImgRouter.js';
-import productRoutes from './routes/productRoutes.js';
-import cartRoutes from './routes/cartRoutes.js';
-import orderRoutes from './routes/orderRoutes.js';
+import { connectDB } from './config/db.js'
 
-const app = express();
+// Routes
+import userRoutes from './routes/userRoutes.js'
+import addressRoutes from './routes/addressRoutes.js'
+import categoryRoutes from './routes/categoryRoutes.js'
+import productRoutes from './routes/productRoutes.js'
+import cartRoutes from './routes/cartRoutes.js'
+import orderRoutes from './routes/orderRoutes.js'
 
-app.use(express.json())
-app.use(cors())
+// AdminJS
+import { adminJs, adminRouter } from './admin.js'
 
 dotenv.config()
-const Port = process.env.PORT || 3000;
-// Connect 
+
+const app = express()
+const PORT = process.env.PORT || 3000
+
+// ⚡ Middlewares
+app.use(cors())   // Enable CORS
+app.use(express.json({ limit: '10kb' })) // Prevent large payload attacks
+
+// Connect DB
 connectDB()
 
-app.get('/', (req,res) => {
-    res.send('Welcome to Vegesingh API!')
+// Base route
+app.get('/', (req, res) => {
+  res.send('Welcome to Vegesingh API!')
 })
 
 // API Routes
-
 app.use('/api/users', userRoutes)
-
 app.use('/api/address', addressRoutes)
-
 app.use('/api/categories', categoryRoutes)
-
-
-// app.use('/api/product-img', productImgRouter)
-
 app.use('/api/products', productRoutes)
-
 app.use('/api/cart', cartRoutes)
 app.use('/api/orders', orderRoutes)
 
-app.listen(Port,()=>{
-    console.log(`Server is running on http://localhost:${Port}`)
+// 🔑 AdminJS
+app.use(adminJs.options.rootPath, adminRouter)
+
+if (process.env.NODE_ENV === 'development') {
+  adminJs.watch()
+}
+
+app.listen(PORT, () => {
+  console.log(`✅ Server is running on http://localhost:${PORT}`)
+  console.log(`⚡ AdminJS available at http://localhost:${PORT}${adminJs.options.rootPath}`)
 })
 
-// module.exports = app;   //unmask for Vercel only 
+// export default app // (for Vercel/Serverless)
