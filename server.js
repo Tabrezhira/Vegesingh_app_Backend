@@ -21,8 +21,8 @@ const app = express()
 const PORT = process.env.PORT || 3000
 
 // ⚡ Middlewares
-app.use(cors())   // Enable CORS
-app.use(express.json({ limit: '10kb' })) // Prevent large payload attacks
+app.use(cors())
+app.use(express.json({ limit: '10kb' }))
 
 // Connect DB
 connectDB()
@@ -43,16 +43,21 @@ app.use('/api/orders', orderRoutes)
 // 🔑 AdminJS
 app.use(adminJs.options.rootPath, adminRouter)
 
-if (process.env.VERCEL) {
-  console.log('Running in Vercel serverless environment')
-} else {
+// ✅ Only run app.listen() in local dev, not in Vercel
+// Only start the server if not running in Vercel dev/serverless
+if (process.env.NODE_ENV !== 'production' && !process.env.VERCEL_ENV) {
   if (process.env.NODE_ENV === 'development') {
-    adminJs.watch()
+    adminJs.watch() 
+    console.log("hello")
   }
   app.listen(PORT, () => {
+    console.log("hi")
     console.log(`✅ Server is running on http://localhost:${PORT}`)
     console.log(`⚡ AdminJS available at http://localhost:${PORT}${adminJs.options.rootPath}`)
   })
 }
+
+
+
 
 export default app
