@@ -67,7 +67,7 @@ if (!process.env.VERCEL) {
   app.listen(PORT, () => {
     console.log("hi")
     console.log(`✅ Server is running on http://localhost:${PORT}`)
-    console.log(`⚡ AdminJS available at http://localhost:${adminJs.options.rootPath}`)
+    console.log(`⚡ AdminJS available at http://localhost:${PORT}/${adminJs.options.rootPath}`)
   })
 }
 
