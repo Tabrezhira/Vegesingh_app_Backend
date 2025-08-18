@@ -108,23 +108,24 @@ const adminJs = new AdminJS({
     },
   ],
   rootPath: '/admin',
-  branding: {
-    companyName: 'Vegesingh Admin',
-    logo: false,
-  },
-  dashboard: {
-    handler: async () => {
-      const [userCount, productCount, orderCount] = await Promise.all([
-        User.countDocuments(),
-        Product.countDocuments(),
-        Order.countDocuments(),
-      ])
-      return {
-        text: `Vegesingh Admin Dashboard\nUsers: ${userCount} | Products: ${productCount} | Orders: ${orderCount}`,
-      }
-    },
-    component: false,
-  },
+  // Removed custom branding and dashboard for default AdminJS appearance
+  // branding: {
+  //   companyName: 'Vegesingh Admin',
+  //   logo: false,
+  // },
+  // dashboard: {
+  //   handler: async () => {
+  //     const [userCount, productCount, orderCount] = await Promise.all([
+  //       User.countDocuments(),
+  //       Product.countDocuments(),
+  //       Order.countDocuments(),
+  //     ])
+  //     return {
+  //       text: `Vegesingh Admin Dashboard\nUsers: ${userCount} | Products: ${productCount} | Orders: ${orderCount}`,
+  //     }
+  //   },
+  //   component: false,
+  // },
 })
 
 const DEFAULT_ADMIN = { email: 'admin@vegesingh.com', password: 'admin123' }
